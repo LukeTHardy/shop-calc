@@ -5,63 +5,74 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 const BFCalc = () => {
-  const [length, setLength] = useState<number>(0);
-  const [width, setWidth] = useState<number>(0);
-  const [thickness, setThickness] = useState<number>(0);
-  const [boardft, setBoardFt] = useState<number>(0);
-
-  const calcBF = (): number => (length * width * thickness) / 144;
+  const [length, setLength] = useState<string>("");
+  const [width, setWidth] = useState<string>("");
+  const [thickness, setThickness] = useState<string>("");
+  const [boardft, setBoardFt] = useState<string>("");
 
   const handleLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLength(parseInt(e.target.value));
+    setLength(e.target.value);
   };
   const handleWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWidth(parseInt(e.target.value));
+    setWidth(e.target.value);
   };
   const handleThicknessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setThickness(parseInt(e.target.value));
+    setThickness(e.target.value);
   };
 
   useEffect(() => {
+    const calcBF = (): string => {
+      const parsedLength = length === "" ? 0 : parseFloat(length);
+      const parsedWidth = width === "" ? 0 : parseFloat(width);
+      const parsedThickness = thickness === "" ? 0 : parseFloat(thickness);
+      let result = (parsedLength * parsedWidth * parsedThickness) / 144;
+      return result.toFixed(2);
+    };
     setBoardFt(calcBF());
-  }, [length, width, thickness, calcBF]);
+  }, [length, width, thickness]);
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex flex-col items-center justify-evenly w-[40rem] h-[20rem]">
       <Link href="/" className="self-start">
         Back
       </Link>
-      <div className="text-xl my-2">Board ft. Calculator</div>
+      <div className="text-2xl my-2">Board ft. Calculator</div>
       <h1 className="italic my-1">
         Enter board length, width, and thickness in inches to find board ft:
       </h1>
-      <div className="inputs-container">
-        Length:
+      <div className="inputs-container w-full flex justify-around">
+        <div className="label">
+          <span className="label-text text-xl">Length</span>
+        </div>
         <input
           type="text"
-          name="length"
+          placeholder="(inches)"
+          className="input input-bordered w-24"
           value={length}
-          placeholder="in."
           onChange={handleLengthChange}
         />
-        Width:
+        <div className="label">
+          <span className="label-text text-xl">Width</span>
+        </div>
         <input
           type="text"
-          name="width"
+          placeholder="(inches)"
+          className="input input-bordered w-24"
           value={width}
-          placeholder="in."
           onChange={handleWidthChange}
         />
-        Thickness:
+        <div className="label">
+          <span className="label-text text-xl">Thickness</span>
+        </div>
         <input
           type="text"
-          name="thickness"
+          placeholder="(inches)"
+          className="input input-bordered w-24"
           value={thickness}
-          placeholder="in."
           onChange={handleThicknessChange}
         />
       </div>
-      <div className="calc-product">Board Ft: {boardft}</div>
+      <div className="calc-product text-xl font-bold">Board Ft: {boardft}</div>
     </main>
   );
 };
