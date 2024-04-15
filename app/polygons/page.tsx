@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 const Polygons = () => {
   const [sideCount, setSideCount] = useState<string>("");
   const [angle, setAngle] = useState<number>(0);
+  const [error, setError] = useState<string>("");
 
   const handleSideCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSideCount(e.target.value);
@@ -19,8 +20,20 @@ const Polygons = () => {
 
   useEffect(() => {
     let sides = parseInt(sideCount);
-    let product: number = (180 * (sides - 2)) / sides;
-    setAngle(product);
+    let wholeNum: boolean = sides % 1 === 0;
+    if (!sideCount) {
+      setAngle(0);
+      setError("");
+    } else if (sides < 3) {
+      setError("* At least 3 sides required *");
+      setAngle(0);
+    } else if (sides && !wholeNum) {
+      setError("Only whole numbers accepted");
+    } else if (sides >= 3 && wholeNum) {
+      let product: number = (180 * (sides - 2)) / sides;
+      let roundedProduct: number = parseFloat(product.toFixed(2));
+      setAngle(roundedProduct);
+    }
   }, [sideCount, angle]);
 
   return (
@@ -28,9 +41,9 @@ const Polygons = () => {
       <Link href="/" className="self-start">
         Back
       </Link>
-      <div className="text-2xl my-2">Equilateral Polygon Angle Finder</div>
+      <div className="text-2xl my-2">Regular Polygon Angle Finder</div>
       <h1 className="italic my-1 text-center">
-        Enter the number of sides of an equilateral polygon to find the interior
+        Enter the number of sides of a regular polygon to find the interior
         angle between sides:
       </h1>
       <div className="inputs-container w-[50%] flex justify-around">
@@ -46,7 +59,7 @@ const Polygons = () => {
         />
       </div>
       <div className="calc-product text-xl font-bold">
-        Angle: {!angle ? "" : `${angle}°`}
+        Angle: {!angle ? error : angle + "°"}
       </div>
       <button className="btn" onClick={handleClear}>
         Clear
