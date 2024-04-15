@@ -1,7 +1,90 @@
+"use client";
+
+import Link from "next/link";
 import React from "react";
+import { useState, useEffect } from "react";
 
 const Fractions = () => {
-  return <div>Fractions</div>;
+  const [fraction, setFraction] = useState<string>("");
+  const [decimal, setDecimal] = useState<string>("");
+  const [lastInput, setLastInput] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
+  const handleFractionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLastInput("fraction");
+    setFraction(e.target.value);
+  };
+  const handleDecimalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLastInput("decimal");
+    setDecimal(e.target.value);
+  };
+
+  const handleClear = () => {
+    setFraction("");
+    setDecimal("");
+  };
+
+  const handleConvert = () => {
+    if (fraction && (lastInput === "" || "fraction")) {
+      const evalFraction = () => {
+        let result: number = eval(fraction);
+        let roundedResult: string = parseFloat(result.toFixed(3)).toString();
+        setDecimal(roundedResult);
+      };
+      evalFraction();
+    } else if (decimal && (lastInput === "" || "decimal")) {
+      const evalDecimal = () => {
+        let numerator: number = parseFloat(decimal) * 10000;
+        let denominator: number = 10000;
+        const gcd = function gcd(a: number, b: number) {
+          while (b !== 0) {
+            const temp = b;
+            b = a % b;
+            a = temp;
+          }
+          return a;
+        };
+        const divisor = gcd(numerator, denominator);
+        let newFraction = `${numerator / divisor}/${denominator / divisor}`;
+        setFraction(newFraction);
+      };
+      evalDecimal();
+    }
+  };
+
+  return (
+    <main className="flex flex-col items-center justify-evenly w-[40rem] h-[20rem]">
+      <Link href="/" className="self-start">
+        Back
+      </Link>
+      <div className="text-2xl my-2">Fraction/Decimal Converter</div>
+      <h1 className="italic my-1 text-center">
+        Enter a decimal or a fraction to see the equivalent value:
+      </h1>
+      <div className="inputs-container w-[50%] flex justify-around">
+        <input
+          type="text"
+          placeholder="Fraction"
+          className="input input-bordered w-24"
+          value={fraction}
+          onChange={handleFractionChange}
+        />
+        <button className="btn" onClick={handleConvert}>
+          Convert
+        </button>
+        <input
+          type="text"
+          placeholder="Decimal"
+          className="input input-bordered w-24"
+          value={decimal}
+          onChange={handleDecimalChange}
+        />
+      </div>
+      <button className="btn" onClick={handleClear}>
+        Clear
+      </button>
+    </main>
+  );
 };
 
 export default Fractions;
