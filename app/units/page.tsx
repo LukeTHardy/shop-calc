@@ -12,11 +12,12 @@ const Units = () => {
   const [lastInput, setLastInput] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleClear = () => {
+  const handleReset = () => {
     setImperialNum("");
     setImperialUnit("in");
     setMetricNum("");
     setMetricUnit("cm");
+    setLastInput("");
   };
 
   const changeImperialUnit = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +42,8 @@ const Units = () => {
     let roundedResult: string;
 
     switch (true) {
+      // Metric Results:
+
       case imperialUnit === "in" &&
         metricUnit === "mm" &&
         lastInput === "imperial":
@@ -83,37 +86,56 @@ const Units = () => {
         roundedResult = parseFloat(result.toFixed(3)).toString();
         setMetricNum(roundedResult);
         break;
+
+      // Imperial Results:
+
       case imperialUnit === "in" &&
         metricUnit === "mm" &&
         lastInput === "metric":
+        result = parseFloat(metricNum) / 25.4;
+        roundedResult = parseFloat(result.toFixed(3)).toString();
+        setImperialNum(roundedResult);
         break;
       case imperialUnit === "in" &&
         metricUnit === "cm" &&
         lastInput === "metric":
+        result = parseFloat(metricNum) / 2.54;
+        roundedResult = parseFloat(result.toFixed(3)).toString();
+        setImperialNum(roundedResult);
         break;
       case imperialUnit === "in" &&
         metricUnit === "m" &&
         lastInput === "metric":
+        result = parseFloat(metricNum) * 39.37;
+        roundedResult = parseFloat(result.toFixed(3)).toString();
+        setImperialNum(roundedResult);
         break;
       case imperialUnit === "ft" &&
         metricUnit === "mm" &&
         lastInput === "metric":
+        result = parseFloat(metricNum) / 304.8;
+        roundedResult = parseFloat(result.toFixed(2)).toString();
+        setImperialNum(roundedResult);
         break;
       case imperialUnit === "ft" &&
         metricUnit === "cm" &&
         lastInput === "metric":
+        result = parseFloat(metricNum) / 30.48;
+        roundedResult = parseFloat(result.toFixed(2)).toString();
+        setImperialNum(roundedResult);
         break;
       case imperialUnit === "ft" &&
         metricUnit === "m" &&
         lastInput === "metric":
+        result = parseFloat(metricNum) * 3.281;
+        roundedResult = parseFloat(result.toFixed(2)).toString();
+        setImperialNum(roundedResult);
         break;
       default:
         // Code to execute if option doesn't match any case
         break;
     }
   };
-
-  const handleUnitChange = () => {};
 
   useEffect(() => {
     if (imperialNum === "") {
@@ -217,7 +239,7 @@ const Units = () => {
           m.
         </label>
       </div>
-      <button className="btn" onClick={handleClear}>
+      <button className="btn" onClick={handleReset}>
         Reset
       </button>
     </main>
