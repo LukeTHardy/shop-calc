@@ -153,12 +153,6 @@ const Units = () => {
     }
   }, [metricNum]);
 
-  // useEffect(() => {
-  //   if (imperialNum || metricNum) {
-  //     setError("");
-  //   }
-  // }, [imperialNum, metricNum]);
-
   useEffect(() => {
     if (imperialNum && metricNum) {
       handleConvert();
