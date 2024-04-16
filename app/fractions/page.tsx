@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const Fractions = () => {
   const [fraction, setFraction] = useState<string>("");
