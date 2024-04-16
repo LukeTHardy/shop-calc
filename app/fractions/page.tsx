@@ -25,14 +25,14 @@ const Fractions = () => {
   };
 
   const handleConvert = () => {
-    if (fraction && (lastInput === "" || "fraction")) {
+    if (fraction && (lastInput === "" || lastInput === "fraction")) {
       const evalFraction = () => {
         let result: number = eval(fraction);
         let roundedResult: string = parseFloat(result.toFixed(3)).toString();
         setDecimal(roundedResult);
       };
       evalFraction();
-    } else if (decimal && (lastInput === "" || "decimal")) {
+    } else if (decimal && (lastInput === "" || lastInput === "decimal")) {
       const evalDecimal = () => {
         let numerator: number = parseFloat(decimal) * 10000;
         let denominator: number = 10000;
@@ -45,8 +45,8 @@ const Fractions = () => {
           return a;
         };
         const divisor = gcd(numerator, denominator);
-        let newFraction = `${numerator / divisor}/${denominator / divisor}`;
-        setFraction(newFraction);
+        let result: string = `${numerator / divisor}/${denominator / divisor}`;
+        setFraction(result);
       };
       evalDecimal();
     }
