@@ -41,99 +41,103 @@ const Units = () => {
     let result: number;
     let roundedResult: string;
 
-    switch (true) {
-      // Metric Results:
+    if (imperialNum || metricNum) {
+      setError("");
+      switch (true) {
+        // Metric Results:
 
-      case imperialUnit === "in" &&
-        metricUnit === "mm" &&
-        lastInput === "imperial":
-        result = parseFloat(imperialNum) * 25.4;
-        roundedResult = parseFloat(result.toFixed(1)).toString();
-        setMetricNum(roundedResult);
-        break;
-      case imperialUnit === "in" &&
-        metricUnit === "cm" &&
-        lastInput === "imperial":
-        result = parseFloat(imperialNum) * 2.54;
-        roundedResult = parseFloat(result.toFixed(2)).toString();
-        setMetricNum(roundedResult);
-        break;
-      case imperialUnit === "in" &&
-        metricUnit === "m" &&
-        lastInput === "imperial":
-        result = parseFloat(imperialNum) * 0.0254;
-        roundedResult = parseFloat(result.toFixed(2)).toString();
-        setMetricNum(roundedResult);
-        break;
-      case imperialUnit === "ft" &&
-        metricUnit === "mm" &&
-        lastInput === "imperial":
-        result = parseFloat(imperialNum) * 304.8;
-        roundedResult = parseFloat(result.toFixed(2)).toString();
-        setMetricNum(roundedResult);
-        break;
-      case imperialUnit === "ft" &&
-        metricUnit === "cm" &&
-        lastInput === "imperial":
-        result = parseFloat(imperialNum) * 30.48;
-        roundedResult = parseFloat(result.toFixed(2)).toString();
-        setMetricNum(roundedResult);
-        break;
-      case imperialUnit === "ft" &&
-        metricUnit === "m" &&
-        lastInput === "imperial":
-        result = parseFloat(imperialNum) * 0.3048;
-        roundedResult = parseFloat(result.toFixed(3)).toString();
-        setMetricNum(roundedResult);
-        break;
+        case imperialUnit === "in" &&
+          metricUnit === "mm" &&
+          lastInput === "imperial":
+          result = parseFloat(imperialNum) * 25.4;
+          roundedResult = parseFloat(result.toFixed(1)).toString();
+          setMetricNum(roundedResult);
+          break;
+        case imperialUnit === "in" &&
+          metricUnit === "cm" &&
+          lastInput === "imperial":
+          result = parseFloat(imperialNum) * 2.54;
+          roundedResult = parseFloat(result.toFixed(2)).toString();
+          setMetricNum(roundedResult);
+          break;
+        case imperialUnit === "in" &&
+          metricUnit === "m" &&
+          lastInput === "imperial":
+          result = parseFloat(imperialNum) * 0.0254;
+          roundedResult = parseFloat(result.toFixed(2)).toString();
+          setMetricNum(roundedResult);
+          break;
+        case imperialUnit === "ft" &&
+          metricUnit === "mm" &&
+          lastInput === "imperial":
+          result = parseFloat(imperialNum) * 304.8;
+          roundedResult = parseFloat(result.toFixed(2)).toString();
+          setMetricNum(roundedResult);
+          break;
+        case imperialUnit === "ft" &&
+          metricUnit === "cm" &&
+          lastInput === "imperial":
+          result = parseFloat(imperialNum) * 30.48;
+          roundedResult = parseFloat(result.toFixed(2)).toString();
+          setMetricNum(roundedResult);
+          break;
+        case imperialUnit === "ft" &&
+          metricUnit === "m" &&
+          lastInput === "imperial":
+          result = parseFloat(imperialNum) * 0.3048;
+          roundedResult = parseFloat(result.toFixed(3)).toString();
+          setMetricNum(roundedResult);
+          break;
 
-      // Imperial Results:
+        // Imperial Results:
 
-      case imperialUnit === "in" &&
-        metricUnit === "mm" &&
-        lastInput === "metric":
-        result = parseFloat(metricNum) / 25.4;
-        roundedResult = parseFloat(result.toFixed(3)).toString();
-        setImperialNum(roundedResult);
-        break;
-      case imperialUnit === "in" &&
-        metricUnit === "cm" &&
-        lastInput === "metric":
-        result = parseFloat(metricNum) / 2.54;
-        roundedResult = parseFloat(result.toFixed(3)).toString();
-        setImperialNum(roundedResult);
-        break;
-      case imperialUnit === "in" &&
-        metricUnit === "m" &&
-        lastInput === "metric":
-        result = parseFloat(metricNum) * 39.37;
-        roundedResult = parseFloat(result.toFixed(3)).toString();
-        setImperialNum(roundedResult);
-        break;
-      case imperialUnit === "ft" &&
-        metricUnit === "mm" &&
-        lastInput === "metric":
-        result = parseFloat(metricNum) / 304.8;
-        roundedResult = parseFloat(result.toFixed(2)).toString();
-        setImperialNum(roundedResult);
-        break;
-      case imperialUnit === "ft" &&
-        metricUnit === "cm" &&
-        lastInput === "metric":
-        result = parseFloat(metricNum) / 30.48;
-        roundedResult = parseFloat(result.toFixed(2)).toString();
-        setImperialNum(roundedResult);
-        break;
-      case imperialUnit === "ft" &&
-        metricUnit === "m" &&
-        lastInput === "metric":
-        result = parseFloat(metricNum) * 3.281;
-        roundedResult = parseFloat(result.toFixed(2)).toString();
-        setImperialNum(roundedResult);
-        break;
-      default:
-        // Code to execute if option doesn't match any case
-        break;
+        case imperialUnit === "in" &&
+          metricUnit === "mm" &&
+          lastInput === "metric":
+          result = parseFloat(metricNum) / 25.4;
+          roundedResult = parseFloat(result.toFixed(3)).toString();
+          setImperialNum(roundedResult);
+          break;
+        case imperialUnit === "in" &&
+          metricUnit === "cm" &&
+          lastInput === "metric":
+          result = parseFloat(metricNum) / 2.54;
+          roundedResult = parseFloat(result.toFixed(3)).toString();
+          setImperialNum(roundedResult);
+          break;
+        case imperialUnit === "in" &&
+          metricUnit === "m" &&
+          lastInput === "metric":
+          result = parseFloat(metricNum) * 39.37;
+          roundedResult = parseFloat(result.toFixed(3)).toString();
+          setImperialNum(roundedResult);
+          break;
+        case imperialUnit === "ft" &&
+          metricUnit === "mm" &&
+          lastInput === "metric":
+          result = parseFloat(metricNum) / 304.8;
+          roundedResult = parseFloat(result.toFixed(2)).toString();
+          setImperialNum(roundedResult);
+          break;
+        case imperialUnit === "ft" &&
+          metricUnit === "cm" &&
+          lastInput === "metric":
+          result = parseFloat(metricNum) / 30.48;
+          roundedResult = parseFloat(result.toFixed(2)).toString();
+          setImperialNum(roundedResult);
+          break;
+        case imperialUnit === "ft" &&
+          metricUnit === "m" &&
+          lastInput === "metric":
+          result = parseFloat(metricNum) * 3.281;
+          roundedResult = parseFloat(result.toFixed(2)).toString();
+          setImperialNum(roundedResult);
+          break;
+        default:
+          break;
+      }
+    } else {
+      setError("Input error");
     }
   };
 
@@ -148,6 +152,12 @@ const Units = () => {
       setImperialNum("");
     }
   }, [metricNum]);
+
+  // useEffect(() => {
+  //   if (imperialNum || metricNum) {
+  //     setError("");
+  //   }
+  // }, [imperialNum, metricNum]);
 
   useEffect(() => {
     if (imperialNum && metricNum) {
@@ -239,6 +249,7 @@ const Units = () => {
           m.
         </label>
       </div>
+      {error ? <div className="text-red-600">{error}</div> : ""}
       <button className="btn" onClick={handleReset}>
         Reset
       </button>
