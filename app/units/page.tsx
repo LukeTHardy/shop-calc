@@ -9,6 +9,7 @@ const Units = () => {
   const [imperialUnit, setImperialUnit] = useState<string>("in");
   const [metricNum, setMetricNum] = useState<string>("");
   const [metricUnit, setMetricUnit] = useState<string>("cm");
+  const [lastInput, setLastInput] = useState<string>("");
   const [error, setError] = useState<string>("");
 
   const handleClear = () => {
@@ -27,13 +28,110 @@ const Units = () => {
 
   const handleImperialInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setImperialNum(e.target.value);
+    setLastInput("imperial");
   };
 
   const handleMetricInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMetricNum(e.target.value);
+    setLastInput("metric");
   };
 
-  const handleConvert = () => {};
+  const handleConvert = () => {
+    let result: number;
+    let roundedResult: string;
+
+    switch (true) {
+      case imperialUnit === "in" &&
+        metricUnit === "mm" &&
+        lastInput === "imperial":
+        result = parseFloat(imperialNum) * 25.4;
+        roundedResult = parseFloat(result.toFixed(1)).toString();
+        setMetricNum(roundedResult);
+        break;
+      case imperialUnit === "in" &&
+        metricUnit === "cm" &&
+        lastInput === "imperial":
+        result = parseFloat(imperialNum) * 2.54;
+        roundedResult = parseFloat(result.toFixed(2)).toString();
+        setMetricNum(roundedResult);
+        break;
+      case imperialUnit === "in" &&
+        metricUnit === "m" &&
+        lastInput === "imperial":
+        result = parseFloat(imperialNum) * 0.0254;
+        roundedResult = parseFloat(result.toFixed(2)).toString();
+        setMetricNum(roundedResult);
+        break;
+      case imperialUnit === "ft" &&
+        metricUnit === "mm" &&
+        lastInput === "imperial":
+        result = parseFloat(imperialNum) * 304.8;
+        roundedResult = parseFloat(result.toFixed(2)).toString();
+        setMetricNum(roundedResult);
+        break;
+      case imperialUnit === "ft" &&
+        metricUnit === "cm" &&
+        lastInput === "imperial":
+        result = parseFloat(imperialNum) * 30.48;
+        roundedResult = parseFloat(result.toFixed(2)).toString();
+        setMetricNum(roundedResult);
+        break;
+      case imperialUnit === "ft" &&
+        metricUnit === "m" &&
+        lastInput === "imperial":
+        result = parseFloat(imperialNum) * 0.3048;
+        roundedResult = parseFloat(result.toFixed(3)).toString();
+        setMetricNum(roundedResult);
+        break;
+      case imperialUnit === "in" &&
+        metricUnit === "mm" &&
+        lastInput === "metric":
+        break;
+      case imperialUnit === "in" &&
+        metricUnit === "cm" &&
+        lastInput === "metric":
+        break;
+      case imperialUnit === "in" &&
+        metricUnit === "m" &&
+        lastInput === "metric":
+        break;
+      case imperialUnit === "ft" &&
+        metricUnit === "mm" &&
+        lastInput === "metric":
+        break;
+      case imperialUnit === "ft" &&
+        metricUnit === "cm" &&
+        lastInput === "metric":
+        break;
+      case imperialUnit === "ft" &&
+        metricUnit === "m" &&
+        lastInput === "metric":
+        break;
+      default:
+        // Code to execute if option doesn't match any case
+        break;
+    }
+  };
+
+  const handleUnitChange = () => {};
+
+  useEffect(() => {
+    if (imperialNum === "") {
+      setMetricNum("");
+    }
+  }, [imperialNum]);
+
+  useEffect(() => {
+    if (metricNum === "") {
+      setImperialNum("");
+    }
+  }, [metricNum]);
+
+  useEffect(() => {
+    if (imperialNum && metricNum) {
+      handleConvert();
+    }
+  }, [metricUnit, imperialUnit]);
 
   return (
     <main className="flex flex-col items-center justify-evenly w-[40rem] h-[20rem]">
@@ -120,7 +218,7 @@ const Units = () => {
         </label>
       </div>
       <button className="btn" onClick={handleClear}>
-        Clear
+        Reset
       </button>
     </main>
   );
