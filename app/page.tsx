@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main>
-      <div className="link-container flex items-center flex-col">
+      <div className="link-container flex flex-col items-center justify-between w-[40rem] h-[15rem]">
         <Link href="/bfcalc" className="my-1 text-xl hover:font-bold ">
           Board Ft. Calculator
         </Link>
