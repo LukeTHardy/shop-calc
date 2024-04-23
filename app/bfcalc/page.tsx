@@ -32,11 +32,15 @@ const BFCalc = () => {
   }, [length, width, thickness]);
 
   return (
-    <main className="flex flex-col items-center justify-evenly w-[40rem] h-[20rem]">
-      <Link href="/" className="self-start">
-        Back
-      </Link>
-      <div className="text-2xl my-2">Board ft. Calculator</div>
+    <main className="flex flex-col items-center justify-between w-[40rem] h-[15rem]">
+      <div className="flex flex-col w-full justify-center">
+        <div className="self-start">
+          <Link href="/" className="block">
+            &lt;-- Back
+          </Link>
+        </div>
+        <div className="text-2xl my-2 self-center">Board ft. Calculator</div>
+      </div>
       <h1 className="italic my-1">
         Enter board length, width, and thickness in inches to find board ft:
       </h1>

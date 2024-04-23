@@ -4,24 +4,23 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main>
-      <h1 className="text-center text-[3rem] mb-6">SHOPCALC</h1>
-      <div className="link-container flex items-center flex-col">
-        <Link href="/bfcalc" className="my-1 text-md hover:font-bold ">
+      <div className="link-container flex flex-col items-center justify-between w-[40rem] h-[15rem]">
+        <Link href="/bfcalc" className="my-1 text-xl hover:font-bold ">
           Board Ft. Calculator
         </Link>
-        <Link href="/units" className="my-1 text-md hover:font-bold">
+        <Link href="/units" className="my-1 text-xl hover:font-bold">
           Imperial/Metric Unit Conversion
         </Link>
-        <Link href="/fractions" className="my-1 text-md hover:font-bold">
+        <Link href="/fractions" className="my-1 text-xl hover:font-bold">
           Fraction/Decimal Conversion
         </Link>
-        <Link href="/triangles" className="my-1 text-md hover:font-bold">
+        <Link href="/triangles" className="my-1 text-xl hover:font-bold">
           Triangle Side Finder
         </Link>
-        <Link href="/polygons" className="my-1 text-md hover:font-bold">
+        <Link href="/polygons" className="my-1 text-xl hover:font-bold">
           Polygon Angle Finder
         </Link>
-        <Link href="/miters" className="my-1 text-md hover:font-bold">
+        <Link href="/miters" className="my-1 text-xl hover:font-bold">
           Compound Miter Calculator
         </Link>
       </div>

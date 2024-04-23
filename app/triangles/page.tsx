@@ -50,11 +50,15 @@ const TriangleCalc = () => {
   }, [sideA, sideB, sideC]);
 
   return (
-    <main className="flex flex-col items-center justify-evenly w-[40rem] h-[20rem]">
-      <Link href="/" className="self-start">
-        Back
-      </Link>
-      <div className="text-2xl my-2">Triangle Side Finder</div>
+    <main className="flex flex-col items-center justify-between w-[40rem] h-[15rem]">
+      <div className="flex flex-col w-full justify-center">
+        <div className="self-start">
+          <Link href="/" className="block">
+            &lt;-- Back
+          </Link>
+        </div>
+        <div className="text-2xl my-2 self-center">Triangle Side Finder</div>
+      </div>
       <h1 className="italic my-1">
         Enter two dimensions of a right triangle (90°) to find the unknown side:
       </h1>
