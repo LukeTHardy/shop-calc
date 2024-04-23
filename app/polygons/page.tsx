@@ -38,10 +38,16 @@ const Polygons = () => {
 
   return (
     <main className="flex flex-col items-center justify-evenly w-[40rem] h-[20rem]">
-      <Link href="/" className="self-start">
-        Back
-      </Link>
-      <div className="text-2xl my-2">Regular Polygon Angle Finder</div>
+      <div className="flex flex-col w-full justify-center">
+        <div className="self-start">
+          <Link href="/" className="block">
+            &lt;-- Back
+          </Link>
+        </div>
+        <div className="text-2xl my-2 self-center">
+          Regular Polygon Angle Finder
+        </div>
+      </div>
       <h1 className="italic my-1 text-center">
         Enter the number of sides of a regular polygon to find the interior
         angle between sides:
