@@ -53,7 +53,7 @@ const Fractions = () => {
   };
 
   return (
-    <main className="flex flex-col items-center justify-between w-[40rem] h-[15rem]">
+    <main className="flex flex-col items-center justify-between w-[40rem] h-[17rem]">
       <div className="flex flex-col w-full justify-center">
         <div className="self-start">
           <Link href="/" className="block">
@@ -74,6 +74,11 @@ const Fractions = () => {
           className="input input-bordered w-24"
           value={fraction}
           onChange={handleFractionChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleConvert();
+            }
+          }}
         />
         <button className="btn" onClick={handleConvert}>
           Convert
@@ -84,6 +89,11 @@ const Fractions = () => {
           className="input input-bordered w-24"
           value={decimal}
           onChange={handleDecimalChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleConvert();
+            }
+          }}
         />
       </div>
       <button className="btn" onClick={handleClear}>

@@ -8,6 +8,7 @@ const TriangleCalc = () => {
   const [sideA, setSideA] = useState<string>("");
   const [sideB, setSideB] = useState<string>("");
   const [sideC, setSideC] = useState<string>("");
+  const [validInput, setValidInput] = useState<boolean>(false);
 
   const handleSideAChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSideA(e.target.value);
@@ -22,35 +23,48 @@ const TriangleCalc = () => {
     setSideA("");
     setSideB("");
     setSideC("");
+    setValidInput(false);
   };
 
-  useEffect(() => {
+  const handleCalculate = () => {
     if (sideA && sideB && !sideC) {
       const sideAValue = parseFloat(sideA);
       const sideBValue = parseFloat(sideB);
       const sideCValue = Math.sqrt(
         Math.pow(sideAValue, 2) + Math.pow(sideBValue, 2)
-      ).toFixed(2);
+      ).toFixed(3);
       setSideC(sideCValue);
     } else if (sideA && !sideB && sideC) {
       const sideAValue = parseFloat(sideA);
       const sideCValue = parseFloat(sideC);
       const sideBValue = Math.sqrt(
         Math.pow(sideCValue, 2) - Math.pow(sideAValue, 2)
-      ).toFixed(2);
+      ).toFixed(3);
       setSideB(sideBValue);
     } else if (!sideA && sideB && sideC) {
       const sideBValue = parseFloat(sideB);
       const sideCValue = parseFloat(sideC);
       const sideAValue = Math.sqrt(
         Math.pow(sideCValue, 2) - Math.pow(sideBValue, 2)
-      ).toFixed(2);
+      ).toFixed(3);
       setSideA(sideAValue);
+    }
+  };
+
+  useEffect(() => {
+    if (
+      (sideA && sideB && !sideC) ||
+      (sideA && sideC && !sideB) ||
+      (sideB && sideC && !sideA)
+    ) {
+      setValidInput(true);
+    } else {
+      setValidInput(false);
     }
   }, [sideA, sideB, sideC]);
 
   return (
-    <main className="flex flex-col items-center justify-between w-[40rem] h-[15rem]">
+    <main className="flex flex-col items-center justify-between w-[40rem] h-[17rem]">
       <div className="flex flex-col w-full justify-center">
         <div className="self-start">
           <Link href="/" className="block">
@@ -72,6 +86,11 @@ const TriangleCalc = () => {
           className="input input-bordered w-24"
           value={sideA}
           onChange={handleSideAChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleCalculate();
+            }
+          }}
         />
         <div className="label">
           <span className="label-text text-xl">B</span>
@@ -82,6 +101,11 @@ const TriangleCalc = () => {
           className="input input-bordered w-24"
           value={sideB}
           onChange={handleSideBChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleCalculate();
+            }
+          }}
         />
         <div className="label">
           <span className="label-text text-xl">C</span>
@@ -92,8 +116,20 @@ const TriangleCalc = () => {
           className="input input-bordered w-24"
           value={sideC}
           onChange={handleSideCChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleCalculate();
+            }
+          }}
         />
       </div>
+      <button
+        className="btn m-2"
+        disabled={!validInput}
+        onClick={handleCalculate}
+      >
+        Calculate
+      </button>
       <button className="btn" onClick={handleClear}>
         Clear
       </button>
