@@ -23,7 +23,7 @@ const Miters = () => {
   };
 
   return (
-    <main className="flex flex-col items-center justify-between w-[40rem] h-[15rem]">
+    <main className="flex flex-col items-center justify-between w-[40rem] h-[17rem]">
       <div className="flex flex-col w-full justify-center">
         <div className="self-start">
           <Link href="/" className="block">
@@ -34,9 +34,7 @@ const Miters = () => {
           Compound Miter Calculator
         </div>
       </div>
-      <h1 className="italic my-1">
-        Enter the ______ and the ______ to find the ______:
-      </h1>
+      <h1 className="italic my-1">*in development*</h1>
       <div className="inputs-container w-[75%] flex justify-around">
         <div className="label">
           <span className="label-text text-xl">First thing</span>
