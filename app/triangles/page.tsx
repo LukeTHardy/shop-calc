@@ -86,7 +86,7 @@ const TriangleCalc = () => {
           className="input input-bordered w-24"
           value={sideA}
           onChange={handleSideAChange}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleCalculate();
             }
@@ -101,7 +101,7 @@ const TriangleCalc = () => {
           className="input input-bordered w-24"
           value={sideB}
           onChange={handleSideBChange}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleCalculate();
             }
@@ -116,7 +116,7 @@ const TriangleCalc = () => {
           className="input input-bordered w-24"
           value={sideC}
           onChange={handleSideCChange}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleCalculate();
             }

@@ -204,7 +204,7 @@ const Units = () => {
           className="input input-bordered w-24"
           value={imperialNum}
           onChange={handleImperialInput}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleConvert();
             }
@@ -219,7 +219,7 @@ const Units = () => {
           className="input input-bordered w-24"
           value={metricNum}
           onChange={handleMetricInput}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleConvert();
             }
