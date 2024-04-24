@@ -74,6 +74,11 @@ const Fractions = () => {
           className="input input-bordered w-24"
           value={fraction}
           onChange={handleFractionChange}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleConvert();
+            }
+          }}
         />
         <button className="btn" onClick={handleConvert}>
           Convert
@@ -84,6 +89,11 @@ const Fractions = () => {
           className="input input-bordered w-24"
           value={decimal}
           onChange={handleDecimalChange}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleConvert();
+            }
+          }}
         />
       </div>
       <button className="btn" onClick={handleClear}>

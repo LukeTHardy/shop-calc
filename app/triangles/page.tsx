@@ -86,6 +86,11 @@ const TriangleCalc = () => {
           className="input input-bordered w-24"
           value={sideA}
           onChange={handleSideAChange}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleCalculate();
+            }
+          }}
         />
         <div className="label">
           <span className="label-text text-xl">B</span>
@@ -96,6 +101,11 @@ const TriangleCalc = () => {
           className="input input-bordered w-24"
           value={sideB}
           onChange={handleSideBChange}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleCalculate();
+            }
+          }}
         />
         <div className="label">
           <span className="label-text text-xl">C</span>
@@ -106,6 +116,11 @@ const TriangleCalc = () => {
           className="input input-bordered w-24"
           value={sideC}
           onChange={handleSideCChange}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleCalculate();
+            }
+          }}
         />
       </div>
       <button
