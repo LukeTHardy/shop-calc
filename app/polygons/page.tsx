@@ -37,7 +37,7 @@ const Polygons = () => {
   }, [sideCount, angle]);
 
   return (
-    <main className="flex flex-col items-center justify-evenly w-[40rem] h-[17rem]">
+    <main className="flex flex-col items-center justify-evenly w-[35rem] h-[17rem]">
       <div className="flex flex-col w-full justify-center">
         <div className="self-start">
           <Link href="/" className="block">

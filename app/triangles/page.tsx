@@ -64,7 +64,7 @@ const TriangleCalc = () => {
   }, [sideA, sideB, sideC]);
 
   return (
-    <main className="flex flex-col items-center justify-between w-[40rem] h-[17rem]">
+    <main className="flex flex-col items-center justify-between w-[35rem] h-[17rem]">
       <div className="flex flex-col w-full justify-center">
         <div className="self-start">
           <Link href="/" className="block">
@@ -124,7 +124,7 @@ const TriangleCalc = () => {
         />
       </div>
       <button
-        className="btn m-2"
+        className="btn m-2 bg-accent"
         disabled={!validInput}
         onClick={handleCalculate}
       >
