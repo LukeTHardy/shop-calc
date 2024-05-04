@@ -1,10 +1,12 @@
 import React from "react";
+import Link from "next/link";
 
 const Header = () => {
   return (
     <div>
-      {/* Your header content goes here */}
-      <h1 className="text-center text-[3rem] mt-6">SHOPCALC</h1>
+      <Link href="/">
+        <h1 className="text-center text-[3rem] mt-6">SHOPCALC</h1>
+      </Link>
       <p className="mb-6 text-center italic">Shop math. Without the math.</p>
     </div>
   );
