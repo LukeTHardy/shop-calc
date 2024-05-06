@@ -10,14 +10,13 @@ const config: Config = {
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        workbench: "url('/workbench.jpeg')",
       },
     },
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["retro"],
+    // themes: ["retro"],
   },
 };
 export default config;
