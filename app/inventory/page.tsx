@@ -70,28 +70,36 @@ const Inventory = () => {
           {inventory.map((item) => (
             <tr key={item.id}>
               <td>{item.quantity}</td>
-              <td>
+              <td className="flex px-2">
                 <Image
                   src={item.species.image} // Route of the image file
                   height={10} // Desired size with correct aspect ratio
-                  width={10} // Desired size with correct aspect ratio
+                  width={25} // Desired size with correct aspect ratio
                   alt="Wood Image"
+                  className="mr-2"
                 />
+                {/* <img
+                  src={item.species.image}
+                  alt="Wood image"
+                  className="w-4 h-4 mx-2"
+                ></img> */}
                 {item.species.species}
               </td>
-              <td>{item.format.name}</td>
-              <td>
+              <td className="px-2">{item.format.name}</td>
+              <td className="px-2">
                 {item.length}&quot; x {item.width}&quot; x {item.thickness}
                 &quot;
               </td>
-              <td>
+              <td className="px-2">
                 {((item.length * item.width * item.thickness) / 144).toFixed(2)}
               </td>
-              <td>{new Date(item.entry_date).toLocaleString()}</td>
-              <td>{item.notes}</td>
-              <td>
-                <button className="edit-btn">Edit</button>
-                <button className="edit-btn">Delete</button>
+              <td className="px-2">
+                {new Date(item.entry_date).toLocaleString()}
+              </td>
+              <td className="px-2">{item.notes}</td>
+              <td className="px-2">
+                <button className="edit-btn px-1">Edit</button>
+                <button className="edit-btn px-1">Delete</button>
               </td>
             </tr>
           ))}
