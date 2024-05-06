@@ -36,6 +36,7 @@ interface InventoryItem {
 
 const Inventory = () => {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchInventory = async () => {
     const response: Response = await fetch("http://localhost:8000/inventory", {
@@ -54,6 +55,7 @@ const Inventory = () => {
         a.species.species.localeCompare(b.species.species)
       );
     setInventory(alphinventory);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -63,7 +65,7 @@ const Inventory = () => {
   const displayInventory = () => {
     if (inventory && inventory.length) {
       return (
-        <div>
+        <>
           {inventory.map((item) => (
             <tr key={item.id}>
               <td>{item.quantity}</td>
@@ -73,14 +75,15 @@ const Inventory = () => {
                 {item.length} x {item.width} x {item.thickness}
               </td>
               <td>{item.totalBF}</td>
+              <td>{new Date(item.entry_date).toLocaleString()}</td>
               <td>{item.notes}</td>
-              <div className="buttons">
+              <td>
                 <button className="edit-btn">Edit</button>
                 <button className="edit-btn">Delete</button>
-              </div>
+              </td>
             </tr>
           ))}
-        </div>
+        </>
       );
     } else {
       return <div>No inventory saved yet :/</div>;
@@ -88,7 +91,7 @@ const Inventory = () => {
   };
 
   return (
-    <div className="comp-container flex flex-col items-center">
+    <div className="comp-container flex flex-col items-center w-full">
       <div className="header flex w-auto justify-evenly my-4">
         <h1>My Inventory</h1>
         <div className="pie-chart">[pie chart goes here]</div>
@@ -108,7 +111,7 @@ const Inventory = () => {
             <th>Edit</th>
           </tr>
         </thead>
-        <tbody>{displayInventory()}</tbody>
+        <tbody>{loading ? <div>Loading...</div> : displayInventory()}</tbody>
       </table>
     </div>
   );
