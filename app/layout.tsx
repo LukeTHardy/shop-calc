@@ -22,13 +22,9 @@ export default function RootLayout({
       <body
         className={`${inter.className} link-container flex items-center flex-col`}
       >
-        <header>
-          <Header />
-        </header>
+        <Header />
         <main>{children}</main>
-        <footer>
-          <Footer />
-        </footer>
+        <Footer />
       </body>
     </html>
   );
