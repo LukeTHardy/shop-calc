@@ -22,9 +22,11 @@ export default function RootLayout({
       <body
         className={`${inter.className} link-container flex items-center flex-col`}
       >
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <div className="bg-[url('/patina_paper.png')] bg-contain bg-no-repeat bg-center h-full w-full flex flex-col items-center">
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

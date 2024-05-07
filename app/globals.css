@@ -18,8 +18,8 @@
 
 body {
   background-image: url("/workbench.jpeg");
-  background-size: cover;
-  background-position: center;
+  background-size: 110%;
+  background-position: right top;
   height: 100vh;
   padding: 1rem;
   display: flex;

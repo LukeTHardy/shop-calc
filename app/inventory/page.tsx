@@ -69,7 +69,7 @@ const Inventory = () => {
         <>
           {inventory.map((item) => (
             <tr key={item.id}>
-              <td>{item.quantity}</td>
+              <td>({item.quantity})</td>
               <td className="flex px-2">
                 <Image
                   src={item.species.image} // Route of the image file
@@ -90,7 +90,7 @@ const Inventory = () => {
                 {item.length}&quot; x {item.width}&quot; x {item.thickness}
                 &quot;
               </td>
-              <td className="px-2">
+              <td className="px-2 text-center">
                 {((item.length * item.width * item.thickness) / 144).toFixed(2)}
               </td>
               <td className="px-2">
