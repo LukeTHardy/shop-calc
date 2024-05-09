@@ -69,37 +69,70 @@ const Inventory = () => {
         <>
           {inventory.map((item) => (
             <tr key={item.id}>
-              <td>({item.quantity})</td>
-              <td className="flex px-2">
+              <td className="text-center">({item.quantity})</td>
+              <td className="flex px-1">
                 <Image
                   src={item.species.image} // Route of the image file
-                  height={10} // Desired size with correct aspect ratio
-                  width={25} // Desired size with correct aspect ratio
+                  height={15} // Desired size with correct aspect ratio
+                  width={15} // Desired size with correct aspect ratio
                   alt="Wood Image"
                   className="mr-2"
                 />
-                {/* <img
-                  src={item.species.image}
-                  alt="Wood image"
-                  className="w-4 h-4 mx-2"
-                ></img> */}
                 {item.species.species}
               </td>
-              <td className="px-2">{item.format.name}</td>
-              <td className="px-2">
+              <td className="px-1 text-center">{item.format.name}</td>
+              <td className="px-1 text-center">
                 {item.length}&quot; x {item.width}&quot; x {item.thickness}
                 &quot;
               </td>
-              <td className="px-2 text-center">
+              <td className="px-1 text-center">
                 {((item.length * item.width * item.thickness) / 144).toFixed(2)}
               </td>
-              <td className="px-2">
-                {new Date(item.entry_date).toLocaleString()}
+              <td className="px-1 text-center">
+                {new Date(item.entry_date).toLocaleDateString()}
               </td>
-              <td className="px-2">{item.notes}</td>
-              <td className="px-2">
-                <button className="edit-btn px-1">Edit</button>
-                <button className="edit-btn px-1">Delete</button>
+              <td className="px-1 text-center">
+                {item.notes ? (
+                  <p className="bold">View</p>
+                ) : (
+                  <p className="italic">none</p>
+                )}
+              </td>
+              <td className="px-1 flex">
+                {/* <button className="edit-btn px-1">Edit</button>
+                <button className="edit-btn px-1">Delete</button> */}
+                <Image
+                  src="/pencil.png" // Route of the image file
+                  height={10} // Desired size with correct aspect ratio
+                  width={25} // Desired size with correct aspect ratio
+                  alt="Edit icon"
+                  className="px-1"
+                />
+                <Image
+                  src="/trash.png" // Route of the image file
+                  height={10} // Desired size with correct aspect ratio
+                  width={25} // Desired size with correct aspect ratio
+                  alt="Delete icon"
+                  className=""
+                />
+
+                {/* <img
+                      className="h-[2rem] cursor-pointer"
+                      src={pencil}
+                      alt="favorite-button"
+                      onClick={() => {
+                        navigate(`/plants/${plantId}/edit`);
+                      }}
+                    />
+                    <img
+                      className="h-[2rem] w-[1.8rem] cursor-pointer"
+                      src={trash}
+                      alt="favorite-button"
+                      onClick={() => {
+                        deletePlant(plantId);
+                        navigate("/plants");
+                      }}
+                    /> */}
               </td>
             </tr>
           ))}
@@ -123,18 +156,18 @@ const Inventory = () => {
       ) : (
         <table className="table-auto">
           <thead>
-            <tr>
-              <th>Quantity</th>
+            <tr className="text-sm">
+              <th>#</th>
               <th>Species</th>
               <th>Format</th>
               <th>Dimensions</th>
-              <th>Total Board Ft.</th>
+              <th>Total BF.</th>
               <th>Entry Date</th>
               <th>Notes</th>
               <th>Edit</th>
             </tr>
           </thead>
-          <tbody>{displayInventory()}</tbody>
+          <tbody className="text-xs">{displayInventory()}</tbody>
         </table>
       )}
     </div>
