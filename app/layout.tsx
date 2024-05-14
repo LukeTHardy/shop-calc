@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={handlee.className}>
+    <html lang="en" className={handlee.className} data-theme="retro">
       <body className="link-container flex items-center flex-col">
         {/* <div className="relative drop-shadow-[0_0_1rem_black] rounded overflow-hidden">
           <Image

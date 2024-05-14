@@ -68,17 +68,20 @@ const Inventory = () => {
       return (
         <>
           {inventory.map((item) => (
-            <tr key={item.id}>
-              <td className="text-center">({item.quantity})</td>
-              <td className="flex px-1">
+            <tr key={item.id} className="text-sm">
+              <td className="px-1 text-center">({item.quantity})</td>
+              <td className="px-1">
                 <Image
                   src={item.species.image} // Route of the image file
                   height={15} // Desired size with correct aspect ratio
                   width={15} // Desired size with correct aspect ratio
                   alt="Wood Image"
-                  className="mr-2"
+                  className="mr-1 inline-block align-middle"
                 />
-                {item.species.species}
+
+                <span className="inline-block align-middle">
+                  {item.species.species}
+                </span>
               </td>
               <td className="px-1 text-center">{item.format.name}</td>
               <td className="px-1 text-center">
@@ -98,22 +101,22 @@ const Inventory = () => {
                   <p className="italic">none</p>
                 )}
               </td>
-              <td className="px-1 flex">
+              <td className="px-1">
                 {/* <button className="edit-btn px-1">Edit</button>
                 <button className="edit-btn px-1">Delete</button> */}
                 <Image
                   src="/pencil.png" // Route of the image file
-                  height={10} // Desired size with correct aspect ratio
-                  width={25} // Desired size with correct aspect ratio
+                  height={20} // Desired size with correct aspect ratio
+                  width={23} // Desired size with correct aspect ratio
                   alt="Edit icon"
-                  className="px-1"
+                  className="px-1 h-4 align-middle inline-block"
                 />
                 <Image
                   src="/trash.png" // Route of the image file
-                  height={10} // Desired size with correct aspect ratio
-                  width={25} // Desired size with correct aspect ratio
+                  height={20} // Desired size with correct aspect ratio
+                  width={13} // Desired size with correct aspect ratio
                   alt="Delete icon"
-                  className=""
+                  className="h-4 align-middle inline-block"
                 />
 
                 {/* <img
@@ -156,13 +159,13 @@ const Inventory = () => {
       ) : (
         <table className="table-auto">
           <thead>
-            <tr className="text-sm">
+            <tr className="text-lg">
               <th>#</th>
               <th>Species</th>
               <th>Format</th>
               <th>Dimensions</th>
               <th>Total BF.</th>
-              <th>Entry Date</th>
+              <th>Date</th>
               <th>Notes</th>
               <th>Edit</th>
             </tr>
