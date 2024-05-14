@@ -69,28 +69,26 @@ const Inventory = () => {
         <>
           {inventory.map((item) => (
             <tr key={item.id} className="text-sm">
-              <td className="px-1 text-center">({item.quantity})</td>
+              <td className="px-2 text-center">({item.quantity})</td>
               <td className="px-1">
                 <Image
                   src={item.species.image} // Route of the image file
                   height={15} // Desired size with correct aspect ratio
                   width={15} // Desired size with correct aspect ratio
                   alt="Wood Image"
-                  className="mr-1 inline-block align-middle"
+                  className="inline-block align-middle"
                 />
 
-                <span className="inline-block align-middle">
+                <span className="inline-block align-middle px-1">
                   {item.species.species}
                 </span>
               </td>
               <td className="px-1 text-center">{item.format.name}</td>
-              <td className="px-1 text-center">
+              <td className="px-2 text-center">
                 {item.length}&quot; x {item.width}&quot; x {item.thickness}
                 &quot;
               </td>
-              <td className="px-1 text-center">
-                {((item.length * item.width * item.thickness) / 144).toFixed(2)}
-              </td>
+              <td className="px-1 text-center">{item.totalBF}</td>
               <td className="px-1 text-center">
                 {new Date(item.entry_date).toLocaleDateString()}
               </td>
@@ -101,7 +99,7 @@ const Inventory = () => {
                   <p className="italic">none</p>
                 )}
               </td>
-              <td className="px-1">
+              <td className="px-2">
                 {/* <button className="edit-btn px-1">Edit</button>
                 <button className="edit-btn px-1">Delete</button> */}
                 <Image
@@ -164,7 +162,7 @@ const Inventory = () => {
               <th>Species</th>
               <th>Format</th>
               <th>Dimensions</th>
-              <th>Total BF.</th>
+              <th>Total bf.</th>
               <th>Date</th>
               <th>Notes</th>
               <th>Edit</th>

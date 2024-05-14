@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main>
       <div className="link-container flex items-center justify-center w-[30rem] h-[17rem]">
-        <div className="grid grid-rows-3 grid-cols-2 gap-4 h-full">
+        <div className="grid grid-rows-3 grid-cols-2 gap-8 h-full">
           <Link
             href="/bfcalc"
             className="border-2 border-neutral hover:border-accent rounded-3xl h-full w-full flex items-center justify-center text-xl"
