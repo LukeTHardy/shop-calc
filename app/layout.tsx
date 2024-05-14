@@ -4,8 +4,9 @@ import "./globals.css";
 import Header from "./header";
 import Footer from "./footer";
 import Head from "next/head";
+import Image from "next/image";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,11 +19,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="retro">
-      <body
-        className={`${inter.className} link-container flex items-center flex-col`}
-      >
-        <div className="bg-[url('/patina_paper.png')] bg-contain bg-no-repeat bg-center h-full w-full flex flex-col items-center">
+    <html lang="en">
+      <body className="link-container flex items-center flex-col">
+        {/* <div className="relative drop-shadow-[0_0_1rem_black] rounded overflow-hidden">
+          <Image
+            src="/patina_paper.png"
+            alt="Descriptive Alt Text"
+            width={500} // Replace with your desired width
+            height={300} // Replace with your desired height
+            className="object-cover"
+          />
+        </div> */}
+        <div className="bg-[url('/patina_paper.png')] drop-shadow-[0_0_0.5rem_rgba(0,0,0,0.6)] bg-contain bg-no-repeat bg-center h-full w-full flex flex-col items-center">
           <Header />
           <main>{children}</main>
           <Footer />
