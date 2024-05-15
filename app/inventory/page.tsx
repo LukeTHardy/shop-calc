@@ -3,6 +3,7 @@
 import React from "react";
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import { DonutChart } from "@tremor/react";
 
 interface InventoryItem {
   id: number;
@@ -35,6 +36,15 @@ interface InventoryItem {
   user: number;
 }
 
+interface StockItem {
+  name: string;
+  value: number;
+}
+
+interface SpeciesMap {
+  [key: string]: number;
+}
+
 const Inventory = () => {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,6 +72,31 @@ const Inventory = () => {
   useEffect(() => {
     fetchAndSetInventory();
   }, [fetchAndSetInventory]);
+
+  const dataFormatter = (number: number) => `${number.toString()} bf.`;
+
+  let stock: StockItem[] = inventory.map((item) => ({
+    name: item.species.species, // Corrected to access item.species.name
+    value: item.totalBF,
+  }));
+
+  // Reduce the stock array to an object where the keys are species names
+  let speciesMap: SpeciesMap = stock.reduce(
+    (acc: SpeciesMap, curr: StockItem) => {
+      if (!acc[curr.name]) {
+        acc[curr.name] = 0;
+      }
+      acc[curr.name] += curr.value;
+      return acc;
+    },
+    {}
+  );
+
+  // Transform the speciesMap object back into an array
+  let uniqueStock: StockItem[] = Object.keys(speciesMap).map((name) => ({
+    name: name,
+    value: speciesMap[name],
+  }));
 
   const displayInventory = () => {
     if (inventory && inventory.length) {
@@ -146,12 +181,23 @@ const Inventory = () => {
 
   return (
     <div className="comp-container flex flex-col items-center w-full">
-      <div className="header flex w-auto justify-evenly my-4">
-        <h1>My Inventory</h1>
-        <div className="pie-chart">[pie chart goes here]</div>
+      <div className="header flex w-auto justify-evenly">
+        <div className="mx-auto space-y-1">
+          <div className="">
+            <span className="text-center text-2xl block">My Inventory</span>
+            <div className="flex justify-center">
+              <DonutChart
+                data={uniqueStock}
+                variant="pie"
+                valueFormatter={dataFormatter}
+                onValueChange={(v) => console.log(v)}
+              />
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="add-inventory my-4">+ Add Inventory Button</div>
-      <div className="filter-bar my-4">Filter/Search Bar</div>
+      <div className="add-inventory my-2">+ Add Inventory Button</div>
+      <div className="filter-bar my-2">Filter/Search Bar</div>
       {loading ? (
         <div>Loading...</div>
       ) : (
