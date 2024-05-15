@@ -39,10 +39,11 @@ interface InventoryItem {
 interface StockItem {
   name: string;
   value: number;
+  colorCatId: number;
 }
 
 interface SpeciesMap {
-  [key: string]: number;
+  [key: string]: { totalValue: number; colorCatId: number };
 }
 
 const Inventory = () => {
@@ -75,27 +76,46 @@ const Inventory = () => {
 
   const dataFormatter = (number: number) => `${number.toString()} bf.`;
 
+  const colorCategoryMap: { [key: number]: string } = {
+    1: "#e6e2cb",
+    2: "#ecd5a7", // Assuming "Blonde" is a shade of yellow
+    3: "#b5651d", // Light Brown
+    4: "#936025", // Medium Brown
+    5: "#663d24", // Dark Brown
+    6: "#5d1e0f", // Red
+    7: "#333333", // Mixed Colors
+    8: "#878787", // Other
+  };
+
   let stock: StockItem[] = inventory.map((item) => ({
-    name: item.species.species, // Corrected to access item.species.name
+    name: item.species.species,
     value: item.totalBF,
+    colorCatId: item.species.colorCat.id,
   }));
 
   // Reduce the stock array to an object where the keys are species names
   let speciesMap: SpeciesMap = stock.reduce(
     (acc: SpeciesMap, curr: StockItem) => {
       if (!acc[curr.name]) {
-        acc[curr.name] = 0;
+        acc[curr.name] = { totalValue: 0, colorCatId: curr.colorCatId };
       }
-      acc[curr.name] += curr.value;
+      acc[curr.name].totalValue += curr.value;
+      acc[curr.name].colorCatId = curr.colorCatId; // Assumes the color category for each species is consistent
       return acc;
     },
     {}
   );
 
   // Transform the speciesMap object back into an array
-  let uniqueStock: StockItem[] = Object.keys(speciesMap).map((name) => ({
+  let uniqueStock = Object.keys(speciesMap).map((name) => ({
     name: name,
-    value: speciesMap[name],
+    value: speciesMap[name].totalValue,
+    colorCatId: speciesMap[name].colorCatId,
+  }));
+
+  const enhancedUniqueStock = uniqueStock.map((item) => ({
+    ...item,
+    color: colorCategoryMap[item.colorCatId],
   }));
 
   const displayInventory = () => {
@@ -182,17 +202,22 @@ const Inventory = () => {
   return (
     <div className="comp-container flex flex-col items-center w-full">
       <div className="header flex w-auto justify-evenly">
-        <div className="mx-auto space-y-1">
-          <div className="">
-            <span className="text-center text-2xl block">My Inventory</span>
-            <div className="flex justify-center">
-              <DonutChart
-                data={uniqueStock}
-                variant="pie"
-                valueFormatter={dataFormatter}
-                onValueChange={(v) => console.log(v)}
-              />
-            </div>
+        <div className="mx-auto space-y-12">
+          <div className="space-y-1">
+            <span className="text-center text-2xl block">Total Stock</span>
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+              <div className="flex justify-center items-center w-40 h-48">
+                <DonutChart
+                  data={uniqueStock}
+                  variant="pie"
+                  valueFormatter={dataFormatter}
+                  onValueChange={(v) => console.log(v)}
+                  colors={enhancedUniqueStock.map((item) => item.color)}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

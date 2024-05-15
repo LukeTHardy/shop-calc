@@ -34,7 +34,7 @@ export default function RootLayout({
             className="object-cover"
           />
         </div> */}
-        <div className="bg-[url('/patina_paper.png')] drop-shadow-[0_0_0.5rem_rgba(0,0,0,0.6)] bg-contain bg-no-repeat bg-center h-full w-full flex flex-col items-center">
+        <div className="bg-[url('/patina_paper.png')] drop-shadow-[0_0_0.3rem_rgba(0,0,0,0.6)] bg-contain bg-no-repeat bg-center h-full w-full flex flex-col items-center">
           <Header />
           <main>{children}</main>
           <Footer />
