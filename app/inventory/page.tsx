@@ -89,6 +89,12 @@ const Inventory = () => {
     8: "#878787", // Other
   };
 
+  const calculateTotals = (arr: Array<InventoryItem>) => {
+    let;
+    for (let item of arr) {
+    }
+  };
+
   // Reduce the inventory array to just these three properties (might be an unnecessary step to remove later)
 
   let stock: StockItem[] = inventory.map((item) => ({
