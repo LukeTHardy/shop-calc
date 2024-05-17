@@ -76,6 +76,8 @@ const Inventory = () => {
 
   const dataFormatter = (number: number) => `${number.toString()} bf.`;
 
+  // Pie chart colors
+
   const colorCategoryMap: { [key: number]: string } = {
     1: "#e6e2cb",
     2: "#ecd5a7", // Assuming "Blonde" is a shade of yellow
@@ -87,13 +89,18 @@ const Inventory = () => {
     8: "#878787", // Other
   };
 
+  // Reduce the inventory array to just these three properties (might be an unnecessary step to remove later)
+
   let stock: StockItem[] = inventory.map((item) => ({
     name: item.species.species,
     value: item.totalBF,
     colorCatId: item.species.colorCat.id,
   }));
 
-  // Reduce the stock array to an object where the keys are species names
+  // Reduce the stock array to an object with each species as one key, with total quantities and color category id
+  // Consolidates and sums all the quantities for the same species, making each species name one key on the object
+  // Also carries the color category id's with it
+
   let speciesMap: SpeciesMap = stock.reduce(
     (acc: SpeciesMap, curr: StockItem) => {
       if (!acc[curr.name]) {
@@ -106,12 +113,16 @@ const Inventory = () => {
     {}
   );
 
-  // Transform the speciesMap object back into an array
+  // Uses .map to transform the speciesMap object back into an array of objects (might be able to consolidate all these into one function later?)
+  // Maps through the keys and creates the object below for each one...this feels redundant...
+
   let uniqueStock = Object.keys(speciesMap).map((name) => ({
     name: name,
     value: speciesMap[name].totalValue,
     colorCatId: speciesMap[name].colorCatId,
   }));
+
+  // Uses the color category id's in uniqueStock to give it the actual color hex codes required by the pie chart
 
   const enhancedUniqueStock = uniqueStock.map((item) => ({
     ...item,
@@ -201,24 +212,34 @@ const Inventory = () => {
 
   return (
     <div className="comp-container flex flex-col items-center w-full">
-      <div className="header flex w-auto justify-evenly">
-        <div className="mx-auto space-y-12">
-          <div className="space-y-1">
-            <span className="text-center text-2xl block">Total Stock</span>
-            {loading ? (
-              <div>Loading...</div>
-            ) : (
-              <div className="flex justify-center items-center w-40 h-48">
-                <DonutChart
-                  data={uniqueStock}
-                  variant="pie"
-                  valueFormatter={dataFormatter}
-                  onValueChange={(v) => console.log(v)}
-                  colors={enhancedUniqueStock.map((item) => item.color)}
-                />
-              </div>
-            )}
-          </div>
+      <div className="header flex w-full justify-evenly items-center">
+        <div className="header-left flex flex-col">
+          <div className="">Total Stock: </div>
+          <div className="">Hardwood: </div>
+          <div className="mb-2">Softwood: </div>
+          <div className="">() Different Species</div>
+          <div className="">() Boards</div>
+          <div className="">() Turning Blanks</div>
+          <div className="">() Boards</div>
+          <div className="">() Dowels</div>
+        </div>
+        <div className="header-right flex flex-col">
+          <span className="chart-title text-center text-2xl block">
+            Inventory:
+          </span>
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            <div className="flex justify-center items-center w-40 h-48">
+              <DonutChart
+                data={uniqueStock}
+                variant="pie"
+                valueFormatter={dataFormatter}
+                onValueChange={(v) => console.log(v)}
+                colors={enhancedUniqueStock.map((item) => item.color)}
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="add-inventory my-2">+ Add Inventory Button</div>
