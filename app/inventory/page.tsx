@@ -36,6 +36,17 @@ interface InventoryItem {
   user: number;
 }
 
+interface Statistics {
+  uniqueSpeciesCount: number;
+  totalBoards: number;
+  totalSheets: number;
+  totalDowels: number;
+  totalTurningBlanks: number;
+  totalBoardFeet: number;
+  totalHardwoodBF: number;
+  totalSoftwoodBF: number;
+}
+
 interface StockItem {
   name: string;
   value: number;
@@ -89,12 +100,6 @@ const Inventory = () => {
     8: "#878787", // Other
   };
 
-  const calculateTotals = (arr: Array<InventoryItem>) => {
-    let;
-    for (let item of arr) {
-    }
-  };
-
   // Reduce the inventory array to just these three properties (might be an unnecessary step to remove later)
 
   let stock: StockItem[] = inventory.map((item) => ({
@@ -134,6 +139,56 @@ const Inventory = () => {
     ...item,
     color: colorCategoryMap[item.colorCatId],
   }));
+
+  const calculateTotals = (inventory: InventoryItem[]): Statistics => {
+    const uniqueSpeciesSet = new Set<string>();
+    let totalBoards = 0;
+    let totalSheets = 0;
+    let totalDowels = 0;
+    let totalTurningBlanks = 0;
+    let totalBoardFeet = 0;
+    let totalHardwoodBF = 0;
+    let totalSoftwoodBF = 0;
+
+    for (const item of inventory) {
+      uniqueSpeciesSet.add(item.species.species);
+      totalBoardFeet += item.totalBF;
+
+      if (item.species.hardwood) {
+        totalHardwoodBF += item.totalBF;
+      } else {
+        totalSoftwoodBF += item.totalBF;
+      }
+
+      switch (item.format.name) {
+        case "Board":
+          totalBoards += item.quantity;
+          break;
+        case "Sheet":
+          totalSheets += item.quantity;
+          break;
+        case "Dowel":
+          totalDowels += item.quantity;
+          break;
+        case "Turning Blank":
+          totalTurningBlanks += item.quantity;
+          break;
+      }
+    }
+
+    return {
+      uniqueSpeciesCount: uniqueSpeciesSet.size,
+      totalBoards,
+      totalSheets,
+      totalDowels,
+      totalTurningBlanks,
+      totalBoardFeet,
+      totalHardwoodBF,
+      totalSoftwoodBF,
+    };
+  };
+
+  const stats = calculateTotals(inventory);
 
   const displayInventory = () => {
     if (inventory && inventory.length) {
@@ -218,20 +273,49 @@ const Inventory = () => {
 
   return (
     <div className="comp-container flex flex-col items-center w-full">
-      <div className="header flex w-full justify-evenly items-center">
+      <div className="header flex w-3/4 justify-between items-center">
         <div className="header-left flex flex-col">
-          <div className="">Total Stock: </div>
-          <div className="">Hardwood: </div>
-          <div className="mb-2">Softwood: </div>
-          <div className="">() Different Species</div>
-          <div className="">() Boards</div>
-          <div className="">() Turning Blanks</div>
-          <div className="">() Boards</div>
-          <div className="">() Dowels</div>
+          <div className="text-xl">
+            All Wood: {stats.totalBoardFeet.toFixed(1)} bf
+          </div>
+          <div className="italic">
+            Hardwood: {stats.totalHardwoodBF.toFixed(1)} bf
+          </div>
+          <div className="italic mb-3">
+            Softwood: {stats.totalSoftwoodBF.toFixed(1)} bf
+          </div>
+          <div className="text-xl">
+            <span className="text-2xl mr-2">{stats.uniqueSpeciesCount}</span>
+            Species
+          </div>
+          <div className="text-xl">
+            <span className="text-2xl mr-2">{stats.totalBoards}</span>
+            {stats.totalBoards > 1 || stats.totalBoards === 0
+              ? "Boards"
+              : "Board"}
+          </div>
+          <div className="text-xl">
+            <span className="text-2xl mr-2">{stats.totalSheets}</span>
+            {stats.totalSheets > 1 || stats.totalSheets === 0
+              ? "Sheets"
+              : "Sheet"}
+          </div>
+          <div className="text-xl">
+            <span className="text-2xl mr-2">{stats.totalTurningBlanks}</span>
+            {stats.totalTurningBlanks > 1 || stats.totalTurningBlanks === 0
+              ? "Turning Blanks"
+              : "Turning Blank"}
+          </div>
+          <div className="text-xl">
+            <span className="text-2xl mr-2">{stats.totalDowels}</span>
+            {stats.totalDowels > 1 || stats.totalDowels === 0
+              ? "Dowels"
+              : "Dowel"}
+          </div>
         </div>
         <div className="header-right flex flex-col">
           <span className="chart-title text-center text-2xl block">
-            Inventory:
+            Stock by Species:
           </span>
           {loading ? (
             <div>Loading...</div>
@@ -255,7 +339,7 @@ const Inventory = () => {
       ) : (
         <table className="table-auto">
           <thead>
-            <tr className="text-lg">
+            <tr className="text-lg italic">
               <th>#</th>
               <th>Species</th>
               <th>Format</th>
