@@ -36,6 +36,17 @@ interface InventoryItem {
   user: number;
 }
 
+interface Statistics {
+  uniqueSpeciesCount: number;
+  totalBoards: number;
+  totalSheets: number;
+  totalDowels: number;
+  totalTurningBlanks: number;
+  totalBoardFeet: number;
+  totalHardwoodBF: number;
+  totalSoftwoodBF: number;
+}
+
 interface StockItem {
   name: string;
   value: number;
@@ -76,6 +87,8 @@ const Inventory = () => {
 
   const dataFormatter = (number: number) => `${number.toString()} bf.`;
 
+  // Pie chart colors
+
   const colorCategoryMap: { [key: number]: string } = {
     1: "#e6e2cb",
     2: "#ecd5a7", // Assuming "Blonde" is a shade of yellow
@@ -87,13 +100,18 @@ const Inventory = () => {
     8: "#878787", // Other
   };
 
+  // Reduce the inventory array to just these three properties (might be an unnecessary step to remove later)
+
   let stock: StockItem[] = inventory.map((item) => ({
     name: item.species.species,
     value: item.totalBF,
     colorCatId: item.species.colorCat.id,
   }));
 
-  // Reduce the stock array to an object where the keys are species names
+  // Reduce the stock array to an object with each species as one key, with total quantities and color category id
+  // Consolidates and sums all the quantities for the same species, making each species name one key on the object
+  // Also carries the color category id's with it
+
   let speciesMap: SpeciesMap = stock.reduce(
     (acc: SpeciesMap, curr: StockItem) => {
       if (!acc[curr.name]) {
@@ -106,17 +124,71 @@ const Inventory = () => {
     {}
   );
 
-  // Transform the speciesMap object back into an array
+  // Uses .map to transform the speciesMap object back into an array of objects (might be able to consolidate all these into one function later?)
+  // Maps through the keys and creates the object below for each one...this feels redundant...
+
   let uniqueStock = Object.keys(speciesMap).map((name) => ({
     name: name,
     value: speciesMap[name].totalValue,
     colorCatId: speciesMap[name].colorCatId,
   }));
 
+  // Uses the color category id's in uniqueStock to give it the actual color hex codes required by the pie chart
+
   const enhancedUniqueStock = uniqueStock.map((item) => ({
     ...item,
     color: colorCategoryMap[item.colorCatId],
   }));
+
+  const calculateTotals = (inventory: InventoryItem[]): Statistics => {
+    const uniqueSpeciesSet = new Set<string>();
+    let totalBoards = 0;
+    let totalSheets = 0;
+    let totalDowels = 0;
+    let totalTurningBlanks = 0;
+    let totalBoardFeet = 0;
+    let totalHardwoodBF = 0;
+    let totalSoftwoodBF = 0;
+
+    for (const item of inventory) {
+      uniqueSpeciesSet.add(item.species.species);
+      totalBoardFeet += item.totalBF;
+
+      if (item.species.hardwood) {
+        totalHardwoodBF += item.totalBF;
+      } else {
+        totalSoftwoodBF += item.totalBF;
+      }
+
+      switch (item.format.name) {
+        case "Board":
+          totalBoards += item.quantity;
+          break;
+        case "Sheet":
+          totalSheets += item.quantity;
+          break;
+        case "Dowel":
+          totalDowels += item.quantity;
+          break;
+        case "Turning Blank":
+          totalTurningBlanks += item.quantity;
+          break;
+      }
+    }
+
+    return {
+      uniqueSpeciesCount: uniqueSpeciesSet.size,
+      totalBoards,
+      totalSheets,
+      totalDowels,
+      totalTurningBlanks,
+      totalBoardFeet,
+      totalHardwoodBF,
+      totalSoftwoodBF,
+    };
+  };
+
+  const stats = calculateTotals(inventory);
 
   const displayInventory = () => {
     if (inventory && inventory.length) {
@@ -201,24 +273,63 @@ const Inventory = () => {
 
   return (
     <div className="comp-container flex flex-col items-center w-full">
-      <div className="header flex w-auto justify-evenly">
-        <div className="mx-auto space-y-12">
-          <div className="space-y-1">
-            <span className="text-center text-2xl block">Total Stock</span>
-            {loading ? (
-              <div>Loading...</div>
-            ) : (
-              <div className="flex justify-center items-center w-40 h-48">
-                <DonutChart
-                  data={uniqueStock}
-                  variant="pie"
-                  valueFormatter={dataFormatter}
-                  onValueChange={(v) => console.log(v)}
-                  colors={enhancedUniqueStock.map((item) => item.color)}
-                />
-              </div>
-            )}
+      <div className="header flex w-3/4 justify-between items-center">
+        <div className="header-left flex flex-col">
+          <div className="text-xl">
+            All Wood: {stats.totalBoardFeet.toFixed(1)} bf
           </div>
+          <div className="italic">
+            Hardwood: {stats.totalHardwoodBF.toFixed(1)} bf
+          </div>
+          <div className="italic mb-3">
+            Softwood: {stats.totalSoftwoodBF.toFixed(1)} bf
+          </div>
+          <div className="text-xl">
+            <span className="text-2xl mr-2">{stats.uniqueSpeciesCount}</span>
+            Species
+          </div>
+          <div className="text-xl">
+            <span className="text-2xl mr-2">{stats.totalBoards}</span>
+            {stats.totalBoards > 1 || stats.totalBoards === 0
+              ? "Boards"
+              : "Board"}
+          </div>
+          <div className="text-xl">
+            <span className="text-2xl mr-2">{stats.totalSheets}</span>
+            {stats.totalSheets > 1 || stats.totalSheets === 0
+              ? "Sheets"
+              : "Sheet"}
+          </div>
+          <div className="text-xl">
+            <span className="text-2xl mr-2">{stats.totalTurningBlanks}</span>
+            {stats.totalTurningBlanks > 1 || stats.totalTurningBlanks === 0
+              ? "Turning Blanks"
+              : "Turning Blank"}
+          </div>
+          <div className="text-xl">
+            <span className="text-2xl mr-2">{stats.totalDowels}</span>
+            {stats.totalDowels > 1 || stats.totalDowels === 0
+              ? "Dowels"
+              : "Dowel"}
+          </div>
+        </div>
+        <div className="header-right flex flex-col">
+          <span className="chart-title text-center text-2xl block">
+            Stock by Species:
+          </span>
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            <div className="flex justify-center items-center w-40 h-48">
+              <DonutChart
+                data={uniqueStock}
+                variant="pie"
+                valueFormatter={dataFormatter}
+                onValueChange={(v) => console.log(v)}
+                colors={enhancedUniqueStock.map((item) => item.color)}
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="add-inventory my-2">+ Add Inventory Button</div>
@@ -228,7 +339,7 @@ const Inventory = () => {
       ) : (
         <table className="table-auto">
           <thead>
-            <tr className="text-lg">
+            <tr className="text-lg italic">
               <th>#</th>
               <th>Species</th>
               <th>Format</th>
